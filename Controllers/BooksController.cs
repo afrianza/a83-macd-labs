@@ -15,12 +15,12 @@ namespace BooksCatalogue.Controllers
     {
         private string apiEndpoint = "https://katalog-api.azurewebsites.net/api/books/";
         // private string apiEndpoint = "https://localhost:8000/api/books/";
-        HttpClientHandler clientHandler = new HttpClientHandler();
+        private readonly HttpClient _client;
         public BooksController()
         {
             // Use this client handler to bypass ssl policy errors
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            _client = new HttpClient(clientHandler);
+            // clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            _client = new HttpClient();
         }
 
         // GET: Books
