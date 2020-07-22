@@ -10,7 +10,8 @@ namespace BooksCatalogue.Controllers
 {
     public class ReviewController : Controller
     {
-        private string apiEndpoint = "https://bookscatalogueapi-dicoding.azurewebsites.net/api/";
+        // private string apiEndpoint = "https://bookscatalogueapi-dicoding.azurewebsites.net/api/";
+        private string apiEndpoint = "https://localhost:8000/api/books/";
 
         public ReviewController() {
         }
