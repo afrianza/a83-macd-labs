@@ -23,7 +23,7 @@ namespace BooksCatalogue.Controllers
                 return NotFound();
             }
 
-            HttpClient client = new HttpClient();
+            HttpClient client = new HttpClient(clientHandler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint + "books/" + bookId);
 
             HttpResponseMessage response = await client.SendAsync(request);
