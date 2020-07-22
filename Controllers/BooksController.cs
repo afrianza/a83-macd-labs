@@ -13,8 +13,8 @@ namespace BooksCatalogue.Controllers
 {
     public class BooksController : Controller
     {
-        // private string apiEndpoint = "https://bookscatalogueapi-dicoding.azurewebsites.net/api/books/";
-        private string apiEndpoint = "https://localhost:8000/api/books/";
+        private string apiEndpoint = "https://katalog-api.azurewebsites.net/api/books/";
+        // private string apiEndpoint = "https://localhost:8000/api/books/";
         private readonly HttpClient _client;
         public BooksController()
         {
