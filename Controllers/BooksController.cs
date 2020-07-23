@@ -25,12 +25,6 @@ namespace BooksCatalogueAPI.Controllers
         _context = context;
         storageConfig = config.Value;
     }
-
-        public BooksController(MyDatabaseContext context)
-        {
-            _context = context;
-        }
-
         // GET: api/Books
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBook()
