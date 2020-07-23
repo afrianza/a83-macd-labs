@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BooksCatalogueAPI.Data;
 using BooksCatalogueAPI.Models;
-using System.IO;
-using Microsoft.Extensions.Options;
-using BooksCatalogueAPI.Helpers;
 
 namespace BooksCatalogueAPI.Controllers
 {
@@ -18,13 +15,6 @@ namespace BooksCatalogueAPI.Controllers
     public class BooksController : ControllerBase
     {
         private readonly MyDatabaseContext _context;
-        private readonly AzureStorageConfig storageConfig = null;
-     
-        public BooksController(MyDatabaseContext context, IOptions<AzureStorageConfig> config)
-    {
-        _context = context;
-        storageConfig = config.Value;
-    }
 
         public BooksController(MyDatabaseContext context)
         {
@@ -104,61 +94,22 @@ namespace BooksCatalogueAPI.Controllers
         // POST: api/Books
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-            [HttpPost]
+        [HttpPost]
         public async Task<ActionResult<Book>> PostBook([FromForm]BookViewModel book)
         {
-            var url = "";
-            var form = Request.Form;
-            var images = form.Files;
-        
-            try
+            var newBook = new Book
             {
-                if (images.Count == 0)
-                return BadRequest("No files received from the upload");
-                        
-                if (storageConfig.AccountKey == string.Empty || storageConfig.AccountName == string.Empty)
-                return BadRequest("sorry, can't retrieve your azure storage details from appsettings.js, make sure that you add azure storage details there");
-        
-                if (storageConfig.ImageContainer == string.Empty)
-                return BadRequest("Please provide a name for your image container in the azure blob storage");
-        
-        
-                foreach (var formFile in images)
-                {
-                    if (formFile.Length > 0)
-                    {
-                        using (Stream stream = formFile.OpenReadStream())
-                        {
-                            url = await StorageHelper.UploadFileToStorage(stream, formFile.FileName, storageConfig);
-                        }
-                    }
-                }
-        
-                if (url != string.Empty)
-                {
-                    var newBook = new Book
-                    {
-                        Title = book.Title,
-                        Author = book.Author,
-                        Synopsis = book.Synopsis,
-                        ReleaseYear = book.ReleaseYear,
-                        CoverURL = url
-                    };
-                            
-                    _context.Book.Add(newBook);
-                    await _context.SaveChangesAsync();
-                    return CreatedAtAction("GetBook", new { id = book.Id }, book);
-                }
-                else 
-                {
-                    return BadRequest("Can't get image URL");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                Title = book.Title,
+                Author = book.Author,
+                Synopsis = book.Synopsis,
+                ReleaseYear = book.ReleaseYear,
+                CoverURL = book.CoverURL
+            };
             
+            _context.Book.Add(newBook);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
         // DELETE: api/Books/5
