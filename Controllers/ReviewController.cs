@@ -11,8 +11,11 @@ namespace BooksCatalogue.Controllers
     public class ReviewController : Controller
     {
         private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/review/";
-
+        private readonly HttpClient _client;
+        HttpClientHandler clientHandler = new HttpClientHandler();
         public ReviewController() {
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            _client = new HttpClient(clientHandler);
         }
 
         // GET: Review/AddReview/2
