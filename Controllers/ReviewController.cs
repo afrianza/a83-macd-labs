@@ -10,7 +10,7 @@ namespace BooksCatalogue.Controllers
 {
     public class ReviewController : Controller
     {
-        private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/";
+        private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/review/";
 
         public ReviewController() {
         }
@@ -56,7 +56,7 @@ namespace BooksCatalogue.Controllers
                 content.Add(new StringContent(review.Rating.ToString()), "rating");
                 content.Add(new StringContent(review.Comment), "comment");
 
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint + "reviews");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint);
                 request.Content = content;
                 HttpResponseMessage response = await _client.SendAsync(request);
 
@@ -65,7 +65,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.OK:
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
-                        return RedirectToAction(nameof(Index));
+                        return Redirect(baseurl + idbooks);
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
