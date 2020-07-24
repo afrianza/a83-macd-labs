@@ -19,7 +19,7 @@ namespace BooksCatalogue.Controllers
         public BooksController()
         {
             // Use this client handler to bypass ssl policy errors
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            // clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _client = new HttpClient();
         }
 
