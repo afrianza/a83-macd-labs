@@ -71,11 +71,6 @@ namespace BooksCatalogue.Controllers
                 }
         }
         
-        {
-
-            return View(review);
-        }
-
         private ActionResult ErrorAction(string message)
         {
             return new RedirectResult("/Home/Error?message=" + message);
