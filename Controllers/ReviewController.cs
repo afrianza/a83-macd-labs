@@ -65,7 +65,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.OK:
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
-                        return Redirect(baseurl + idbooks);
+                        return View("Views/Books/Details.cshtml");
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
