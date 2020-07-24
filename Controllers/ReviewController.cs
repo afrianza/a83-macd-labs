@@ -68,8 +68,8 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.OK:
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
-                        int bookids = review.BookId;
-                        return Redirect(baseUrl + bookids);
+                        
+                        return RedirectToAction(nameof(Index));
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
