@@ -1,7 +1,7 @@
 @model BooksCatalogue.Models.Review
 
 @{
-    ViewData["Title"] = "Review";
+    ViewData["Title"] = "AddReview";
 }
 
 <h1>Add</h1>
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Review">
+        <form asp-action="AddReview">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BookId" />
             <div class="form-group">
