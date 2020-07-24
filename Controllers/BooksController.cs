@@ -171,7 +171,6 @@ namespace BooksCatalogue.Controllers
                         return ErrorAction("Error. Status code = " + response.StatusCode);
                 }
             }
-            return View(book);
         }
 
         // GET: Books/Delete/5
