@@ -10,7 +10,7 @@ namespace BooksCatalogue.Controllers
 {
     public class ReviewController : Controller
     {
-        private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/";
+        private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/review/";
         private readonly HttpClient _client;
         HttpClientHandler clientHandler = new HttpClientHandler();
         public ReviewController() {
@@ -59,7 +59,7 @@ namespace BooksCatalogue.Controllers
                 content.Add(new StringContent(review.Rating.ToString()), "rating");
                 content.Add(new StringContent(review.Comment), "comment");
 
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint + "review/");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint);
                 request.Content = content;
                 HttpResponseMessage response = await _client.SendAsync(request);
 
