@@ -69,8 +69,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
                         
-                        return RedirectToAction("Details", new RouteValueDictionary(
-                            new { controller = "Books", action = "Details", Id = tReview.BookId }));
+                        return Redirect("https://katalogbuku.azurewebsites.net/Books/");
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }

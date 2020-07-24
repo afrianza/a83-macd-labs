@@ -36,8 +36,7 @@
 </div>
 
 <div>
-    <!--<a asp-action="Details">Back to List</a>-->
-    @Html.ActionLink("Back to List", "Details", "Books", new { id = ViewData["BookId"] }, null)
+    <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.Id">Back</a>
 </div>
 
 @section Scripts {
