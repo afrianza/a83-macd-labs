@@ -52,6 +52,37 @@ namespace BooksCatalogue.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview([Bind("Id,BookId,ReviewerName,Rating,Comment")] Review review)
         {
+            if (id != book.Id)
+            {
+                return NotFound();
+            }
+
+            {
+                var httpContent = new[] {
+                    new KeyValuePair<string, string>("id", review.Id.ToString()),
+                    new KeyValuePair<string, string>("reviewerName", review.ReviewerName),
+                    new KeyValuePair<string, string>("rating", review.Rating.ToString()),
+                    new KeyValuePair<string, string>("comment", review.Comment),
+                };
+
+                HttpContent content = new FormUrlEncodedContent(httpContent);
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, apiEndpoint + id);
+                request.Content = content;
+
+                HttpResponseMessage response = await _client.SendAsync(request);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                    case HttpStatusCode.NoContent:
+                    case HttpStatusCode.Created:
+                        return RedirectToAction(nameof(Index));
+                    default:
+                        return ErrorAction("Error. Status code = " + response.StatusCode);
+                }
+            }
+        }
+        /*{
                 MultipartFormDataContent content = new MultipartFormDataContent();
 
                 content.Add(new StringContent(review.BookId.ToString()), "bookId");
@@ -73,7 +104,7 @@ namespace BooksCatalogue.Controllers
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
-        }
+        }*/
         
         private ActionResult ErrorAction(string message)
         {
