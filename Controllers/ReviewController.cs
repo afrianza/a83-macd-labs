@@ -50,13 +50,17 @@ namespace BooksCatalogue.Controllers
         // POST: Review/AddReview
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview([Bind("Id,BookId,ReviewerName,Rating,Comment")] Review review)
+        public async Task<IActionResult> AddReview(int id, [Bind("Id,BookId,ReviewerName,Rating,Comment")] Review review, Book book)
         {
-            
+            if (id != book.Id)
+            {
+                return NotFound();
+            }
 
             {
                 var httpContent = new[] {
                     new KeyValuePair<string, string>("id", review.Id.ToString()),
+                    new KeyValuePair<string, string>("bookId", review.BookId.ToString()),
                     new KeyValuePair<string, string>("reviewerName", review.ReviewerName),
                     new KeyValuePair<string, string>("rating", review.Rating.ToString()),
                     new KeyValuePair<string, string>("comment", review.Comment),
