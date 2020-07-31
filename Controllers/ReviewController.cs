@@ -35,10 +35,10 @@ namespace BooksCatalogue.Controllers
             {
                 case HttpStatusCode.OK:
                     string responseString = await response.Content.ReadAsStringAsync();
-                    var book = JsonSerializer.Deserialize<Book>(responseString);
+                    var review = JsonSerializer.Deserialize<Review>(responseString);
 
                     ViewData["BookId"] = bookId;
-                    return View("AddReview");
+                    return View(review);
                 case HttpStatusCode.NotFound:
                     return NotFound();
                 default:
