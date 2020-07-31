@@ -18,6 +18,28 @@ namespace BooksCatalogue.Controllers
             _client = new HttpClient(clientHandler);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            switch(response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    var book = JsonSerializer.Deserialize<Book>(responseString);
+                    return View(book);
+                default:
+                    return ErrorAction("Error. Status code = " + response.StatusCode + ": " + response.ReasonPhrase);
+            }
+        }
+
         // GET: Review/AddReview/2
         public async Task<IActionResult> AddReview(int? bookId)
         {
@@ -101,7 +123,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
                         
-                        return RedirectToAction(nameof(AddReview));
+                        return RedirectToAction(nameof(Details));
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
