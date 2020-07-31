@@ -50,9 +50,13 @@ namespace BooksCatalogue.Controllers
         // POST: Review/AddReview
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview(int id, [Bind("Id,BookId,ReviewerName,Rating,Comment")] Review review)
+        public async Task<IActionResult> AddReview(int id, [Bind("Id,BookId,ReviewerName,Rating,Comment")] Review review, Book book)
         {
-          
+            /*if (id != book.Id)
+            {
+                return NotFound();
+            }
+
             {
                 var httpContent = new[] {
                     new KeyValuePair<string, string>("id", review.Id.ToString()),
@@ -77,9 +81,9 @@ namespace BooksCatalogue.Controllers
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode);
                 }
-            }
-        }
-        /*{
+            }*/
+        
+            {
                 MultipartFormDataContent content = new MultipartFormDataContent();
 
                 content.Add(new StringContent(review.BookId.ToString()), "bookId");
@@ -101,8 +105,8 @@ namespace BooksCatalogue.Controllers
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
-        }*/
-        
+            }
+        }
         private ActionResult ErrorAction(string message)
         {
             return new RedirectResult("/Home/Error?message=" + message);
