@@ -13,32 +13,11 @@ namespace BooksCatalogue.Controllers
         private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/";
         private readonly HttpClient _client;
         HttpClientHandler clientHandler = new HttpClientHandler();
+        private object Details;
+
         public ReviewController() {
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _client = new HttpClient(clientHandler);
-        }
-
-        // Acuan Back to Details
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
-
-            HttpResponseMessage response = await _client.SendAsync(request);
-
-            switch(response.StatusCode)
-            {
-                case HttpStatusCode.OK:
-                    string responseString = await response.Content.ReadAsStringAsync();
-                    var book = JsonSerializer.Deserialize<Book>(responseString);
-                    return View(book);
-                default:
-                    return ErrorAction("Error. Status code = " + response.StatusCode + ": " + response.ReasonPhrase);
-            }
         }
 
         // GET: Review/AddReview/2
