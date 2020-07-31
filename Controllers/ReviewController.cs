@@ -18,7 +18,6 @@ namespace BooksCatalogue.Controllers
             _client = new HttpClient(clientHandler);
         }
 
-        // Acuan Back to Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
