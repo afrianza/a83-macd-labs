@@ -13,7 +13,6 @@ namespace BooksCatalogue.Controllers
         private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/";
         private readonly HttpClient _client;
         HttpClientHandler clientHandler = new HttpClientHandler();
-        private object Details;
 
         public ReviewController() {
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -103,7 +102,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
                         
-                        return RedirectToAction(nameof(Details));
+                        return View(book);
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
