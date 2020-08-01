@@ -13,6 +13,8 @@ namespace BooksCatalogue.Controllers
         private readonly HttpClient _client;
         HttpClientHandler clientHandler = new HttpClientHandler();
 
+        public string dasarUrl= "katalogbuku.azurewebsites.net";
+
         public ReviewController() {
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _client = new HttpClient(clientHandler);
@@ -101,7 +103,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
                         
-                        return Redirect("katalogbuku.azurewebsites.net");
+                        return Redirect(dasarUrl);
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
