@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using BooksCatalogue.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BooksCatalogue.Controllers
 {
@@ -13,11 +14,28 @@ namespace BooksCatalogue.Controllers
         private string apiEndpoint = "https://katalogbuku-api.azurewebsites.net/api/";
         private readonly HttpClient _client;
         HttpClientHandler clientHandler = new HttpClientHandler();
-        private object Details;
 
         public ReviewController() {
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _client = new HttpClient(clientHandler);
+        }
+
+        // GET: Books
+        public async Task<IActionResult> Index()
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            switch(response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    string responseString = await response.Content.ReadAsStringAsync();
+                    List<Book> books = JsonSerializer.Deserialize<Book[]>(responseString).ToList();
+                    return View(books);
+                default:
+                    return ErrorAction("Error. Status code = " + response.StatusCode + ": " + response.ReasonPhrase);
+            }
         }
 
         // GET: Review/AddReview/2
@@ -103,7 +121,7 @@ namespace BooksCatalogue.Controllers
                     case HttpStatusCode.NoContent:
                     case HttpStatusCode.Created:
                         
-                        return RedirectToAction(nameof(Details));
+                        return RedirectToAction(nameof(Index));
                     default:
                         return ErrorAction("Error. Status code = " + response.StatusCode + "; " + response.ReasonPhrase);
                 }
