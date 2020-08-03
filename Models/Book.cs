@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.Azure.Search;
 
 namespace BooksCatalogue.Models
 {
@@ -8,16 +9,19 @@ namespace BooksCatalogue.Models
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+        [IsSortable, IsSearchable]
         [JsonPropertyName("title")]
         [StringLength(60, MinimumLength = 3)]
         [Required]
         public string Title { get; set; }
+        [IsFilterable, IsFacetable, IsSearchable]
         [JsonPropertyName("author")]
         [Required]
         public string Author { get; set; }
         [JsonPropertyName("synopsis")]
         [Required]
         public string Synopsis { get; set; }
+        [IsFilterable, IsSortable, IsFacetable]
         [Display(Name = "Release Year")]
         [JsonPropertyName("releaseYear")]
         [Required]
@@ -28,5 +32,11 @@ namespace BooksCatalogue.Models
         public string CoverURL { get; set; }
         [JsonPropertyName("reviews")]
         public ICollection<Review> Reviews { get; set; }
+    }
+    public class AzureSearchService
+    {
+        public string SearchServiceName { get; set; }
+        public string SearchServiceQueryApiKey { get; set; }
+        public string SearchServiceIndex { get; set; }
     }
 }
