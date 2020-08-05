@@ -11,5 +11,6 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0"/>
     <PackageReference Include="Microsoft.Azure.Search" Version="10.1.0"/>
     <PackageReference Include="StackExchange.Redis" Version="2.1.58"/>
+    <PackageReference Include="NSwag.AspNetCore" Version="13.7.0"/>
   </ItemGroup>
 </Project>

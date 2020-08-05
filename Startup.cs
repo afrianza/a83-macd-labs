@@ -27,6 +27,7 @@ namespace BooksCatalogue
         {
             services.AddControllersWithViews();
             services.Configure<AzureSearchService>(Configuration.GetSection("AzureSearchService"));
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +56,8 @@ namespace BooksCatalogue
                     name: "default",
                     pattern: "{controller=Books}/{action=Index}/{id?}");
             });
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
         
     }
